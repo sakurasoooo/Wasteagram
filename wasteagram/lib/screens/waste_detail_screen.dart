@@ -1,14 +1,15 @@
-import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:wasteagram/models/food_waste_post.dart';
 
 class WasteDetailScreen extends StatelessWidget {
-  //final File image;
-  const WasteDetailScreen({Key key}) : super(key: key);
+  final FoodWastePost post;
+  const WasteDetailScreen({Key key, this.post}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Wasteagram '),
+          title: Text('Wasteagram'),
         ),
         body: Center(
             child: Column(
@@ -16,15 +17,31 @@ class WasteDetailScreen extends StatelessWidget {
           children: [
             // Image.file(image),
             SizedBox(
-                height: 100, child: Center(child: Text("Sun,Feb 2, 2020"))),
+                height: 100,
+                child: Center(
+                    child: Text(
+                  DateFormat.yMMMMEEEEd('en_US').format(post.time),
+                  style: Theme.of(context).textTheme.headline4,
+                ))),
             SizedBox(height: 100),
-            SizedBox(height: 300, child: Placeholder()),
+            SizedBox(
+                height: 300,
+                child: Image.network(
+                  post.picUrl,
+                )),
             SizedBox(
                 height: 200,
-                child: Center(child: Text(3.toString() + " Items"))),
+                child: Center(
+                  child: Text(
+                    post.numberOfWasted.toString() + " Items",
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                )),
             SizedBox(
                 height: 50,
-                child: Center(child: Text("Location (1123, -123141)")))
+                child: Center(
+                    child: Text(
+                        "Location (${post.latitude}, ${post.longtitude})")))
           ],
         )));
   }

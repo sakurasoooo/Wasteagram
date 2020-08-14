@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wasteagram/screens/waste_detail_screen.dart';
+import 'package:intl/intl.dart';
 import 'package:wasteagram/widgets/camera_fab.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wasteagram/models/food_waste_post.dart';
+import 'package:wasteagram/screens/waste_detail_screen.dart';
 
 class WasteList extends StatefulWidget {
   @override
@@ -8,7 +11,14 @@ class WasteList extends StatefulWidget {
 }
 
 class _WasteListState extends State<WasteList> {
-  final count = 10;
+  var count = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('initState');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,28 +26,51 @@ class _WasteListState extends State<WasteList> {
       appBar: AppBar(
         title: Text('Wasteagram ' + count.toString()),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(8),
-        children: <Widget>[
-          ListTile(
-            leading: Text("Thursday, Janary 30, 2020 "),
-            trailing: Text('5'),
-            onTap: () {
-              print("TAP1");
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => WasteDetailScreen()));
-            },
-          ),
-          ListTile(
-            title: Text("Thursday, Janary 30, 2020"),
-            trailing: Text('5'),
-            onTap: () {
-              print("TAP2");
-            },
-          )
-        ],
+      body: StreamBuilder(
+        stream: Firestore.instance
+            .collection('posts')
+            .orderBy('time', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData &&
+              snapshot.data.documents != null &&
+              snapshot.data.documents.length > 0) {
+            return ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context, index) {
+                  var post = snapshot.data.documents[index];
+
+                  return ListTile(
+                      leading: Text(DateFormat.yMMMMEEEEd('en_US')
+                          .format(post['time'].toDate())),
+                      trailing: Text(
+                        post['numberOfWasted'].toString(),
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WasteDetailScreen(
+                                        post: FoodWastePost(
+                                      picUrl: post['picUrl'],
+                                      time: post['time'].toDate(),
+                                      numberOfWasted: post['numberOfWasted'],
+                                      latitude: post['latitude'],
+                                      longtitude: post['longtitude'],
+                                    ))));
+                      });
+                });
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
-      floatingActionButton: CameraFab(),
+      floatingActionButton: Semantics(
+          child: CameraFab(),
+          button: true,
+          enabled: true,
+          onTapHint: 'Select an image'),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

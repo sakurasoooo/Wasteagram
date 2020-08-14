@@ -37,6 +37,7 @@ class _WasteFoodFormState extends State<WasteFoodForm> {
               decoration: InputDecoration(
                 hintText: 'Number Of Wasted Food',
               ),
+              style: Theme.of(context).textTheme.headline4,
               onSaved: (value) {
                 number = int.parse(value);
               },

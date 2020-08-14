@@ -14,9 +14,9 @@ class App extends StatelessWidget {
         home: WasteList());
   }
 
-  String mydate() {
+  String getdate() {
     final DateTime now = DateTime.now();
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final DateFormat formatter = DateFormat('yyyy-MM-dd-jms');
     final String formatted = formatter.format(now);
     return formatted;
   }

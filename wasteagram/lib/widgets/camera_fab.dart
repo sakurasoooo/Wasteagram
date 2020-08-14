@@ -15,7 +15,7 @@ class _CameraFabState extends State<CameraFab> {
     final _picker = ImagePicker();
     PickedFile pickedImage =
         await _picker.getImage(source: ImageSource.gallery);
-    return File(pickedImage.path);
+    return pickedImage == null ? null : File(pickedImage.path);
   }
 
   @override
@@ -23,10 +23,11 @@ class _CameraFabState extends State<CameraFab> {
     return FloatingActionButton(
       onPressed: () async {
         image = await getImage();
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => NewWasteScreen(image: image)));
+        if (image != null)
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NewWasteScreen(image: image)));
       },
       child: Icon(Icons.camera_alt),
       backgroundColor: Colors.teal,

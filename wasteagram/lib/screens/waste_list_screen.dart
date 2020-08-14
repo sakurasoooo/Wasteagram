@@ -20,7 +20,8 @@ class _WasteListState extends State<WasteList> {
         padding: const EdgeInsets.all(8),
         children: <Widget>[
           ListTile(
-            title: Text("Text"),
+            leading: Text("Thursday, Janary 30, 2020 "),
+            trailing: Text('5'),
             onTap: () {
               print("TAP1");
               Navigator.push(context,
@@ -28,7 +29,8 @@ class _WasteListState extends State<WasteList> {
             },
           ),
           ListTile(
-            title: Text("Text"),
+            title: Text("Thursday, Janary 30, 2020"),
+            trailing: Text('5'),
             onTap: () {
               print("TAP2");
             },

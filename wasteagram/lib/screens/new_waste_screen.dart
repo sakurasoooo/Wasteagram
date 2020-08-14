@@ -24,7 +24,9 @@ class NewWasteScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            WasteFoodForm()
+            WasteFoodForm(
+              image: image,
+            )
           ],
         )),
       ),

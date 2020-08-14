@@ -1,11 +1,35 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import 'package:image_picker/image_picker.dart';
+import 'package:wasteagram/screens/new_waste_screen.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+class CameraFab extends StatefulWidget {
+  @override
+  _CameraFabState createState() => _CameraFabState();
+}
 
-import 'package:firebase_storage/firebase_storage.dart';
+class _CameraFabState extends State<CameraFab> {
+  File image;
 
-import 'package:path/path.dart';
+  Future<File> getImage() async {
+    final _picker = ImagePicker();
+    PickedFile pickedImage =
+        await _picker.getImage(source: ImageSource.gallery);
+    return File(pickedImage.path);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () async {
+        image = await getImage();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NewWasteScreen(image: image)));
+      },
+      child: Icon(Icons.camera_alt),
+      backgroundColor: Colors.teal,
+    );
+  }
+}

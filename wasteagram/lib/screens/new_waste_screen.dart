@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:wasteagram/widgets/wasted_food_form.dart';
 
 class NewWasteScreen extends StatelessWidget {
   final File image;
@@ -8,18 +9,25 @@ class NewWasteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Psot'),
+        title: Text('New Post'),
       ),
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.file(image),
-          SizedBox(
-            height: 50,
-          )
-        ],
-      )),
+      resizeToAvoidBottomPadding: false,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 309, child: Image.file(image)),
+            SizedBox(
+              height: 20,
+            ),
+            WasteFoodForm()
+          ],
+        )),
+      ),
     );
   }
 }

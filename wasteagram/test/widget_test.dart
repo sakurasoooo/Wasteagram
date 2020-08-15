@@ -8,23 +8,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:wasteagram/main.dart';
+import 'package:wasteagram/models/food_waste_post.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(App());
+  test('Post created from Map should have appropriate property values', () {
+    final date = DateTime.parse('2020-01-01');
+    const url = 'FAKE';
+    const quantity = 1;
+    const latitude = 1.0;
+    const longtitude = 2.0;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    final foodWastedPost = FoodWastePost.fromMap({
+      'time': date,
+      'picUrl': url,
+      'numberOfWasted': quantity,
+      'latitude': latitude,
+      'longtitude': longtitude
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(foodWastedPost.picUrl, url);
+    expect(foodWastedPost.numberOfWasted, quantity);
+    expect(foodWastedPost.time, date);
+    expect(foodWastedPost.longtitude, longtitude);
+    expect(foodWastedPost.latitude, latitude);
   });
 }

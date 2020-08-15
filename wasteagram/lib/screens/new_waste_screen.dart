@@ -20,7 +20,10 @@ class NewWasteScreen extends StatelessWidget {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 309, child: Image.file(image)),
+            Semantics(
+                label: 'A picture you have selected',
+                image: true,
+                child: SizedBox(height: 309, child: Image.file(image))),
             SizedBox(
               height: 20,
             ),

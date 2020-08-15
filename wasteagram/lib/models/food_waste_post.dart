@@ -20,4 +20,11 @@ class FoodWastePost {
       'longtitude': longtitude
     };
   }
+
+  FoodWastePost.fromMap(Map map)
+      : picUrl = map['picUrl'],
+        time = map['time'],
+        numberOfWasted = map['numberOfWasted'],
+        latitude = map['latitude'],
+        longtitude = map['longtitude'];
 }

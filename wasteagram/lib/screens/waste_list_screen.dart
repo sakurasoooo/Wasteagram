@@ -14,17 +14,27 @@ class _WasteListState extends State<WasteList> {
   var count = 0;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('initState');
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Wasteagram ' + count.toString()),
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, kToolbarHeight),
+        child: StreamBuilder(
+            stream: Firestore.instance.collection('posts').snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData &&
+                  snapshot.data.documents != null &&
+                  snapshot.data.documents.length > 0) {
+                var results = snapshot.data.documents;
+                count = results
+                    .map((result) => result['numberOfWasted'])
+                    .reduce((a, b) => a + b);
+                return AppBar(
+                  title: Text('Wasteagram ' + count.toString()),
+                );
+              } else {
+                return AppBar(title: Text('Wasteagram 0'));
+              }
+            }),
       ),
       body: StreamBuilder(
         stream: Firestore.instance

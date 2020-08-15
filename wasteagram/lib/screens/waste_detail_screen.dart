@@ -15,7 +15,6 @@ class WasteDetailScreen extends StatelessWidget {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Image.file(image),
             SizedBox(
                 height: 100,
                 child: Center(
@@ -24,11 +23,17 @@ class WasteDetailScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline4,
                 ))),
             SizedBox(height: 100),
-            SizedBox(
-                height: 300,
-                child: Image.network(
-                  post.picUrl,
-                )),
+            Semantics(
+              label: 'An image of wasted food',
+              image: true,
+              enabled: true,
+              readOnly: true,
+              child: SizedBox(
+                  height: 300,
+                  child: Image.network(
+                    post.picUrl,
+                  )),
+            ),
             SizedBox(
                 height: 200,
                 child: Center(

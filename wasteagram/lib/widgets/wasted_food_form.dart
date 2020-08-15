@@ -53,27 +53,32 @@ class _WasteFoodFormState extends State<WasteFoodForm> {
           SizedBox(
             height: 70,
           ),
-          SizedBox(
-            height: 117,
-            width: double.infinity,
-            child: RaisedButton.icon(
-              color: Colors.blue,
-              onPressed: () async {
-                if (formKey.currentState.validate()) {
-                  formKey.currentState.save();
-                  final url = await PhotoStorage().sendImage(widget.image);
-                  locationData = await retrieveLocation();
-                  FoodWastePoster().sendPost(FoodWastePost(
-                      picUrl: url,
-                      time: DateTime.now(),
-                      numberOfWasted: number,
-                      latitude: locationData.latitude,
-                      longtitude: locationData.longitude));
-                  Navigator.pop(context);
-                }
-              },
-              icon: Icon(Icons.backup, size: 70),
-              label: Text(''),
+          Semantics(
+            label: 'An Upload button',
+            button: true,
+            image: false,
+            child: SizedBox(
+              height: 117,
+              width: double.infinity,
+              child: RaisedButton.icon(
+                color: Colors.blue,
+                onPressed: () async {
+                  if (formKey.currentState.validate()) {
+                    formKey.currentState.save();
+                    final url = await PhotoStorage().sendImage(widget.image);
+                    locationData = await retrieveLocation();
+                    FoodWastePoster().sendPost(FoodWastePost(
+                        picUrl: url,
+                        time: DateTime.now(),
+                        numberOfWasted: number,
+                        latitude: locationData.latitude,
+                        longtitude: locationData.longitude));
+                    Navigator.pop(context);
+                  }
+                },
+                icon: Icon(Icons.backup, size: 70),
+                label: Text(''),
+              ),
             ),
           ),
         ],

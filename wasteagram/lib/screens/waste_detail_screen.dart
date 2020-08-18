@@ -32,6 +32,11 @@ class WasteDetailScreen extends StatelessWidget {
                   height: 300,
                   child: Image.network(
                     post.picUrl,
+                    loadingBuilder: (context, child, progress) {
+                      return progress == null
+                          ? child
+                          : LinearProgressIndicator();
+                    },
                   )),
             ),
             SizedBox(

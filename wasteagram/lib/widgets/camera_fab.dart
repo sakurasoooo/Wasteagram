@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wasteagram/screens/new_waste_screen.dart';
+import 'package:location/location.dart';
 
 class CameraFab extends StatefulWidget {
   @override
@@ -22,6 +23,25 @@ class _CameraFabState extends State<CameraFab> {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
+        var locationService = Location();
+        bool _serviceEnabled;
+        PermissionStatus _permissionGranted;
+
+        _serviceEnabled = await locationService.serviceEnabled();
+        if (!_serviceEnabled) {
+          _serviceEnabled = await locationService.requestService();
+          if (!_serviceEnabled) {
+            return;
+          }
+        }
+
+        _permissionGranted = await locationService.hasPermission();
+        if (_permissionGranted == PermissionStatus.denied) {
+          _permissionGranted = await locationService.requestPermission();
+          if (_permissionGranted != PermissionStatus.granted) {
+            return;
+          }
+        }
         image = await getImage();
         if (image != null)
           Navigator.push(

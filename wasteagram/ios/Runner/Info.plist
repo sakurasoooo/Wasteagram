@@ -6,10 +6,14 @@
 	<string>Selecting a photo from within the app</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Taking a new photo from within the app</string>
+
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Needed to access location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Needed to access location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Needed to access location</string>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

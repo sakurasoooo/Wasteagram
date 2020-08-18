@@ -20,6 +20,25 @@ class _WasteFoodFormState extends State<WasteFoodForm> {
 
   Future retrieveLocation() async {
     var locationService = Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await locationService.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await locationService.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await locationService.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await locationService.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
     return await locationService.getLocation();
   }
 
@@ -65,6 +84,7 @@ class _WasteFoodFormState extends State<WasteFoodForm> {
                 onPressed: () async {
                   if (formKey.currentState.validate()) {
                     formKey.currentState.save();
+                    Navigator.pop(context);
                     final url = await PhotoStorage().sendImage(widget.image);
                     locationData = await retrieveLocation();
                     FoodWastePoster().sendPost(FoodWastePost(
@@ -73,7 +93,6 @@ class _WasteFoodFormState extends State<WasteFoodForm> {
                         numberOfWasted: number,
                         latitude: locationData.latitude,
                         longtitude: locationData.longitude));
-                    Navigator.pop(context);
                   }
                 },
                 icon: Icon(Icons.backup, size: 70),

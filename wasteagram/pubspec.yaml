@@ -32,6 +32,7 @@ dependencies:
   location: ^3.0.2
   firebase_storage: ^3.1.6
   cloud_firestore: ^0.13.7
+  leancloud_storage: ^0.4.3
   intl: ^0.16.1
   transparent_image: ^1.0.0
 

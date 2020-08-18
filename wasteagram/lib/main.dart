@@ -16,8 +16,8 @@ void main() async {
       server: 'https://vtlblubq.lc-cn-n1-shared.com',
       queryCache: new LCQueryCache());
   LCLogger.setLevel(LCLogger.DebugLevel);
-  LCObject object = LCObject('TestObject');
-  object['words'] = 'Hello world!';
-  await object.save();
+  // LCObject object = LCObject('TestObject');
+  // object['words'] = 'Hello world!';
+  // await object.save();
   runApp(App());
 }
